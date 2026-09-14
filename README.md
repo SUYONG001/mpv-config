@@ -31,7 +31,8 @@
   * 提供播放列表导航面板、音轨/字幕直选面板与章节跳转列表。
   * **精准元素保留**：通过 `uosc.conf` 仅保留无边框细线边框（`window_border`）、右侧垂直音量滑块（`volume`）、流媒体缓冲旋转动画（`buffering_indicator`）及暂停闪烁图标（`pause_indicator`）。
   * **精准元素剔除**：强制禁用顶栏（`top_bar`）、进度条（`timeline`）、控制栏（`controls`）、空闲图标（`idle_indicator`）与音频指示（`audio_indicator`），彻底杜绝与 ModernX 发生视觉冲突。
-  ![image-20260914154321233](C:\Users\darkn\AppData\Roaming\Typora\typora-user-images\image-20260914154321233.png)
+<img width="962" height="563" alt="视频预览" src="https://github.com/user-attachments/assets/1e203454-d631-406d-8c6f-354cd72914e9" />
+
 > **实机效果预览 · 视频播放协同**：中部为鼠标右键唤出的 **uosc 半透明深色菜单**（支持倍速、轨道、滤镜快速直选），底部为 **ModernX 罗兰电竞紫进度条与控制栏**，鼠标悬停在时间轴上时，由 **Thumbfast** 秒级拉起高清原画缩略图，整体界面清爽无重叠。
 
 ### 2. Auto Profiles 分辨率区间自适应
@@ -85,7 +86,8 @@
   * 播放 `.flac`、`.mp3` 等音频时，视频插值与升频后处理滤镜全自动注销卸载。
   * 音轨带有封面则居中展现封面，无封面则自动渲染彩虹色 CQT 频谱
 
-![image-20260914153728947](C:\Users\darkn\AppData\Roaming\Typora\typora-user-images\image-20260914153728947.png)
+<img width="482" height="293" alt="音频预览" src="https://github.com/user-attachments/assets/eea2967a-6bd7-46e8-82e8-159065d287e4" />
+
 
 > **实机效果预览 · 音频频谱可视化**：播放无封面音频文件（如 `.wav`）时，`visualizer.lua` 自动挂载 `showcqtbar` 滤镜，以音阶（C/D/E/F/G/A/B）标尺动态呈现高精度彩虹频谱，同时底层自动切断无意义的画面插值与去色带计算，大幅节省 GPU 资源。
 
