@@ -47,8 +47,7 @@
 ## 二、 零基础部署与还原步骤
 
 ### 1. 下载主程序并解压
-* 从 SourceForge 官方构建源获取最新的 64 位构建包：  
-  `https://sourceforge.net/projects/mpv-player-windows/files/64bit-v3/`
+* 从 [GitHub](https://github.com/mpv-player/mpv/releases/tag/git-release) 官方构建源获取最新的 64 位构建包：  
 * 将下载的压缩包解压至本地安装目录（推荐路径：`D:\Data\Player\mpv\`）。
 
 ### 2. 导入便携配置文件
