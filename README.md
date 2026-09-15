@@ -48,7 +48,7 @@
 
 ### 1. 下载主程序并解压
 * 从 [GitHub](https://github.com/mpv-player/mpv/releases/tag/git-release) 官方构建源获取最新的 64 位构建包：  
-* 将下载的压缩包解压至本地安装目录（推荐路径：`D:\Data\Player\mpv\`）。
+* 将下载的压缩包解压至本地安装目录（自己喜欢的路径：`D:\Data\Player\mpv\`）。
 
 ### 2. 导入便携配置文件
 * 将本仓库的全部配置文件与文件夹放入 mpv 根目录下的 `portable_config` 目录中。
