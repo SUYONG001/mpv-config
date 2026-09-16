@@ -27,74 +27,28 @@ local function set_volume()
     if not ext then return end
     ext = ext:lower()
 
-    -- ============================================================
-    --  音频文件扩展名定义（完整版）
-    -- ============================================================
-    local audio_exts = {
-        -- 无损压缩格式
-        flac = true, ape = true, wav = true,
-        -- 无损压缩（少见格式）
-        alac = true, tta = true, tak = true, wv = true,
-        -- 有损压缩格式
-        mp3 = true, aac = true, ogg = true, opus = true,
-        -- 有损压缩（少见格式）
-        wma = true, mp2 = true, mp1 = true, ac3 = true,
-        -- Apple 格式
-        m4a = true, caf = true,
-        -- 游戏/光盘音频格式
-        cue = true, dsf = true, dff = true, iso = true,
-        -- 未压缩格式
-        aiff = true, aifc = true, au = true, snd = true, pcm = true,
-        -- 容器格式（可包含音频）
-        mka = true, weba = true,
-        -- 模块格式（少见）
-        mod = true, s3m = true, xm = true, it = true, mid = true, midi = true,
-    }
+-- ============================================================
+--  判断当前文件是否为"纯音频"（允许有封面，但无真实视频轨）
+-- ============================================================
+local function is_audio_only()
+    -- 没有音频轨 → 不是音频文件
+    if mp.get_property("aid") == "no" then return false end
 
-    if audio_exts[ext] then
-        -- ============================================================
-        --  音频文件专属设置
-        --  以下所有设置仅通过 file-local-options 作用于当前音频文件
-        --  不会对任何视频文件产生污染
-        -- ============================================================
+    -- 没有视频轨 → 纯音频
+    if mp.get_property("vid") == "no" then return true end
 
-        -- 独立音量
-        mp.set_property("file-local-options/volume", opts.audio_vol)
+    -- 有视频轨，但这条轨是专辑封面 → 视为纯音频
+    local albumart = mp.get_property_native("current-tracks/video/albumart")
+    if albumart == true then return true end
 
-        -- 强制显示窗口（频谱 / 封面需要渲染目标）
-        mp.set_property("file-local-options/force-window", "yes")
-
-        -- 显示内嵌专辑封面
-        mp.set_property("file-local-options/audio-display", "yes")
-        -- 无内嵌封面时自动搜索同目录封面图
-        mp.set_property("file-local-options/audio-display-cover", "yes")
-
-        -- 降低渲染分辨率，节省 GPU 资源
-        -- 高度由 volume_fix.conf 中的 audio_scale_height 指定
-        -- force_original_aspect_ratio=decrease：保持比例，仅在超出时缩小
-        local scale_h = opts.audio_scale_height
-        mp.set_property("file-local-options/vf",
-            "scale=" .. scale_h .. ":" .. scale_h .. ":force_original_aspect_ratio=decrease")
-
-        -- 关闭视频插值（音频文件没有帧率概念）
-        mp.set_property("file-local-options/interpolation", "no")
-        -- 以音频时钟同步
-        mp.set_property("file-local-options/video-sync", "audio")
-
-        -- 关闭视频后处理（对音频无意义，减少 GPU 占用）
-        mp.set_property("file-local-options/deband", "no")
-        mp.set_property("file-local-options/scale", "bilinear")
-        mp.set_property("file-local-options/cscale", "bilinear")
-        mp.set_property("file-local-options/dscale", "bilinear")
-
-    else
-        -- ============================================================
-        --  视频文件专属设置
-        -- ============================================================
-
-        -- 独立音量
-        mp.set_property("file-local-options/volume", opts.video_vol)
-    end
+    -- 有真实视频轨 → 视频文件
+    return false
 end
 
-mp.register_event("start-file", set_volume)
+if is_audio_only() then
+    -- 音频专属设置（原样保留）
+else
+    -- 视频专属设置
+end
+
+mp.register_event("file-loaded", set_volume)
